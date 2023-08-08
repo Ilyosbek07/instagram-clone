@@ -67,13 +67,22 @@ class StoryDestroyAPIView(generics.DestroyAPIView):
 
 # API FOR COMMENT
 
-class CommentListAPIView(generics.ListAPIView):
+class StoryCommentListAPIView(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
     def get_queryset(self):
         pk = self.kwargs.get('pk')
         return Comment.objects.filter(post_id=pk)
+
+
+class PostCommentListAPIView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Comment.objects.filter(story_id=pk)
 
 
 class CommentCreateAPIView(generics.CreateAPIView):

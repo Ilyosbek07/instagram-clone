@@ -65,6 +65,7 @@ class Post(BaseModel):
 class Comment(BaseModel):
     profile_id = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     post_id = models.ForeignKey(Post, null=True, blank=True, on_delete=models.CASCADE)
+    story_id = models.ForeignKey(Story, null=True, blank=True, on_delete=models.CASCADE)
     text = models.TextField()
 
     def __str__(self):
