@@ -17,6 +17,8 @@ class ProfileListAPIView(generics.CreateAPIView):
     serializer_class = ProfileSerializer
 
 
+
+
 class ProfileDestroyAPIView(generics.DestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -27,6 +29,12 @@ class ProfileDestroyAPIView(generics.DestroyAPIView):
 class PostListAPIView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'message': 'Hello, Django!',
+        }
+        return render(request, 'home.html', context)
 
 
 class PostRetrieveAPIView(generics.RetrieveAPIView):

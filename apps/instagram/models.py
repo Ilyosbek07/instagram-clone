@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from apps.common.models import BaseModel
 
@@ -9,8 +10,9 @@ class Gender(models.Model):
         ('FEMALE', 'Female'),
     )
 
-
+#Profile model yoki User model qaysi bir yaxshi
 class Profile(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     fullname = models.CharField(max_length=222)
     username = models.CharField(max_length=222)
     image = models.ImageField(upload_to="profile/images", null=True, blank=True)
@@ -55,8 +57,8 @@ class Video(models.Model):
 class Post(BaseModel):
     user = models.ForeignKey(Profile, related_name='post', on_delete=models.CASCADE)
     title = models.CharField(max_length=222)
-    images = models.ManyToManyField(Image, null=True, blank=True)
-    video = models.ManyToManyField(Video, null=True, blank=True)
+    images = models.ManyToManyField(Image, blank=True)
+    video = models.ManyToManyField(Video, blank=True)
 
     def __str__(self):
         return self.title
