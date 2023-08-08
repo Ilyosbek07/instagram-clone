@@ -5,116 +5,253 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Gender',
+            name="Gender",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Image',
+            name="Image",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image_path', models.ImageField(upload_to='post/images')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("image_path", models.ImageField(upload_to="post/images")),
             ],
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=222)),
-                ('images', models.ManyToManyField(to='instagram.image')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=222)),
+                ("images", models.ManyToManyField(to="instagram.image")),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('fullname', models.CharField(max_length=222)),
-                ('username', models.CharField(max_length=222)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='profile/images')),
-                ('bio', models.TextField(blank=True, null=True)),
-                ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female')], max_length=15)),
-                ('email', models.EmailField(max_length=222)),
-                ('is_suggestion', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("fullname", models.CharField(max_length=222)),
+                ("username", models.CharField(max_length=222)),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="profile/images"
+                    ),
+                ),
+                ("bio", models.TextField(blank=True, null=True)),
+                (
+                    "gender",
+                    models.CharField(
+                        choices=[("M", "Male"), ("F", "Female")], max_length=15
+                    ),
+                ),
+                ("email", models.EmailField(max_length=222)),
+                ("is_suggestion", models.BooleanField(default=False)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Video',
+            name="Video",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('video_path', models.FileField(upload_to='post/videos')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("video_path", models.FileField(upload_to="post/videos")),
             ],
         ),
         migrations.CreateModel(
-            name='Story',
+            name="Story",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('video', models.FileField(blank=True, null=True, upload_to='profile/stories')),
-                ('image', models.ImageField(upload_to='profile/story/images')),
-                ('profile_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='story', to='instagram.profile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "video",
+                    models.FileField(
+                        blank=True, null=True, upload_to="profile/stories"
+                    ),
+                ),
+                ("image", models.ImageField(upload_to="profile/story/images")),
+                (
+                    "profile_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="story",
+                        to="instagram.profile",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Saved',
+            name="Saved",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='saved_post', to='instagram.post')),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='saved_profile', to='instagram.profile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "post_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="saved_post",
+                        to="instagram.post",
+                    ),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="saved_profile",
+                        to="instagram.profile",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='post',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post', to='instagram.profile'),
+            model_name="post",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="post",
+                to="instagram.profile",
+            ),
         ),
         migrations.AddField(
-            model_name='post',
-            name='video',
-            field=models.ManyToManyField(to='instagram.video'),
+            model_name="post",
+            name="video",
+            field=models.ManyToManyField(to="instagram.video"),
         ),
         migrations.CreateModel(
-            name='Like',
+            name="Like",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instagram.post')),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instagram.profile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "post_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="instagram.post"
+                    ),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="instagram.profile",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('text', models.TextField()),
-                ('post_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='instagram.post')),
-                ('profile_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='instagram.profile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("text", models.TextField()),
+                (
+                    "post_id",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="instagram.post",
+                    ),
+                ),
+                (
+                    "profile_id",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="instagram.profile",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

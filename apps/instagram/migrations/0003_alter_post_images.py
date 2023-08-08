@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('instagram', '0002_alter_profile_gender'),
+        ("instagram", "0002_alter_profile_gender"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='images',
-            field=models.ManyToManyField(blank=True, null=True, to='instagram.image'),
+            model_name="post",
+            name="images",
+            field=models.ManyToManyField(blank=True, null=True, to="instagram.image"),
         ),
     ]

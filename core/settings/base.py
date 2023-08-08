@@ -50,11 +50,7 @@ CUSTOM_APPS = [
     "apps.instagram",
 ]
 
-THIRD_PARTY_APPS = [
-    "rest_framework",
-    "drf_yasg",
-    "corsheaders",
-]
+THIRD_PARTY_APPS = ["rest_framework", "drf_yasg", "corsheaders", "widget_tweaks"]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -66,10 +62,13 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
-
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
 }
 
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
@@ -176,5 +175,3 @@ CELERY_TIMEZONE = "Asia/Tashkent"
 
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-
-

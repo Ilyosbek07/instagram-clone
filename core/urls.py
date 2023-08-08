@@ -7,9 +7,8 @@ from .schema import swagger_urlpatterns
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('instagram/v1/', include('apps.instagram.urls'))
-
+    path("api-auth/", include("rest_framework.urls")),
+    path("instagram/v1/", include("apps.instagram.urls")),
 ]
 
 urlpatterns += swagger_urlpatterns

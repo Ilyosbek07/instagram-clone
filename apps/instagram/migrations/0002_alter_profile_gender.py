@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('instagram', '0001_initial'),
+        ("instagram", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='gender',
-            field=models.CharField(choices=[('MALE', 'Male'), ('FEMALE', 'Female')], max_length=15),
+            model_name="profile",
+            name="gender",
+            field=models.CharField(
+                choices=[("MALE", "Male"), ("FEMALE", "Female")], max_length=15
+            ),
         ),
     ]

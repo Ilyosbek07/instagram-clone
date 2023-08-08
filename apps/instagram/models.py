@@ -6,15 +6,15 @@ from apps.common.models import BaseModel
 # User Models
 class Gender(models.Model):
     GENDER_CHOICES = (
-        ('MALE', 'Male'),
-        ('FEMALE', 'Female'),
+        ("MALE", "Male"),
+        ("FEMALE", "Female"),
     )
 
-#Profile model yoki User model qaysi bir yaxshi
+
+# Profile model yoki User model qaysi bir yaxshi
 class Profile(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fullname = models.CharField(max_length=222)
-    username = models.CharField(max_length=222)
     image = models.ImageField(upload_to="profile/images", null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     gender = models.CharField(max_length=15, choices=Gender.GENDER_CHOICES)
@@ -26,8 +26,12 @@ class Profile(BaseModel):
 
 
 class Follow(models.Model):
-    profile = models.ForeignKey(Profile,related_name='following', on_delete=models.CASCADE)
-    follower_id = models.ForeignKey(Profile,related_name='follower', on_delete=models.CASCADE)
+    profile = models.ForeignKey(
+        Profile, related_name="following", on_delete=models.CASCADE
+    )
+    follower_id = models.ForeignKey(
+        Profile, related_name="follower", on_delete=models.CASCADE
+    )
 
 
 # class Highlight(BaseModel):
@@ -39,7 +43,9 @@ class Follow(models.Model):
 
 
 class Story(BaseModel):
-    profile_id = models.ForeignKey(Profile, related_name='story', on_delete=models.CASCADE)
+    profile_id = models.ForeignKey(
+        Profile, related_name="story", on_delete=models.CASCADE
+    )
     video = models.FileField(upload_to="profile/stories", null=True, blank=True)
     image = models.ImageField(upload_to="profile/story/images")
     # highlight = models.ForeignKey(Highlight, on_delete=models.SET_NULL)
@@ -55,7 +61,7 @@ class Video(models.Model):
 
 
 class Post(BaseModel):
-    user = models.ForeignKey(Profile, related_name='post', on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, related_name="post", on_delete=models.CASCADE)
     title = models.CharField(max_length=222)
     images = models.ManyToManyField(Image, blank=True)
     video = models.ManyToManyField(Video, blank=True)
@@ -65,7 +71,9 @@ class Post(BaseModel):
 
 
 class Comment(BaseModel):
-    profile_id = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
+    profile_id = models.ForeignKey(
+        Profile, null=True, blank=True, on_delete=models.SET_NULL
+    )
     post_id = models.ForeignKey(Post, null=True, blank=True, on_delete=models.CASCADE)
     story_id = models.ForeignKey(Story, null=True, blank=True, on_delete=models.CASCADE)
     text = models.TextField()
@@ -80,5 +88,9 @@ class Like(models.Model):
 
 
 class Saved(models.Model):
-    post_id = models.ForeignKey(Post, related_name='saved_post', on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Profile, related_name='saved_profile', on_delete=models.CASCADE)
+    post_id = models.ForeignKey(
+        Post, related_name="saved_post", on_delete=models.CASCADE
+    )
+    user_id = models.ForeignKey(
+        Profile, related_name="saved_profile", on_delete=models.CASCADE
+    )
