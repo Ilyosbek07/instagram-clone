@@ -9,6 +9,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = (
             'profile_id',
             'post_id',
+            'story_id',
             'text'
         )
 
