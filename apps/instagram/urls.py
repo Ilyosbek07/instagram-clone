@@ -12,13 +12,14 @@ from apps.instagram.views import (
     StoryCreateAPIView,
     StoryRetrieveAPIView,
     StoryDestroyAPIView,
-    StoryCommentListAPIView
+    StoryCommentListAPIView, ProfileCreateAPIView
 )
 
 urlpatterns = [
     # PROFILE endpoinsts
     path('profile/<int:pk>/', ProfileRetrieveAPIView.as_view(), name='profile-detail'),
     path('profile/<int:pk>/', ProfileDestroyAPIView.as_view(), name='profile-delete'),
+    path('profile/create/', ProfileCreateAPIView.as_view(), name='profile-create'),
 
     # POSTS endpoinsts
     path('post/', PostListAPIView.as_view(), name='post'),

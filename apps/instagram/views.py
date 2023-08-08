@@ -12,7 +12,7 @@ class ProfileRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
 
 
-class ProfileListAPIView(generics.CreateAPIView):
+class ProfileCreateAPIView(generics.CreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
