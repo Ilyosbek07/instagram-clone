@@ -72,12 +72,7 @@
                                 </a>
 
                             </li>
-                            <li>
-                                <a href="./profile.html">
-                                    <img class="circle story" src="{% static './images/profile_img.jpg' %}">
-                                    <span class="d-none d-lg-block ">Profile</span>
-                                </a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="more">
@@ -252,110 +247,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="notif follow_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">
-                                    Zineb_essoussi
-                                    <span class="desc">started following you.</span>
-                                    <span class="time">2h</span>
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="follow_you">
-                            <button class="follow_text">Follow</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="notif story_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
-                            </div>
-                            <div class="info">
-                                <div class="info">
-                                    <p class="name">
-                                        Zineb_essoussi
-                                        <span class="desc">liked your story.</span>
-                                        <span class="time">2d</span>
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="story_like">
-                            <img src="{% static './images/img2.jpg' %}" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="notif follow_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">
-                                    Zineb_essoussi
-                                    <span class="desc">started following you.</span>
-                                    <span class="time">2h</span>
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="follow_you">
-                            <button class="follow_text">Follow</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="notif story_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
-                            </div>
-                            <div class="info">
-                                <div class="info">
-                                    <p class="name">
-                                        Zineb_essoussi
-                                        <span class="desc">liked your story.</span>
-                                        <span class="time">2d</span>
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="story_like">
-                            <img src="{% static './images/img2.jpg' %}" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="notif follow_notif">
-                    <div class="cart">
-                        <div>
-                            <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
-                            </div>
-                            <div class="info">
-                                <p class="name">
-                                    Zineb_essoussi
-                                    <span class="desc">started following you.</span>
-                                    <span class="time">2h</span>
-                                </p>
-
-                            </div>
-                        </div>
-                        <div class="follow_you">
-                            <button class="follow_text">Follow</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!--***** nav menu end ****** -->
@@ -364,82 +255,156 @@
             <!--***** posts_container start ****** -->
             <div class="main_section">
                 <div class="posts_container">
-                    <div class="stories">
-                        <div class="owl-carousel items">
-                        </div>
-                    </div>
 
-                    <div class="posts">
+
+
+{% for post in posts %}
+                 <div class="post">
+
+                    <div class="info">
+                      <div class="person">
+                          {% if post.photo_of_profile %}
+                          <img src="{{ post.photo_of_profile }}">
+                          {% endif %}
+                          <a href="#">{{ post.username }}</a>
+                      </div>
+                      <div class="more">
+                          <img src="{% static './images/show_more.png' %}" alt="show more">
+                      </div>
                     </div>
+                    <div class="image">
+                         {% if post.images %}
+                       {% for image in post.images %}
+                      <img src="{{ image.image_path }}" alt="Image {{ image.id }}">
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="desc">
+                      <div class="icons">
+                          <div class="icon_left d-flex">
+                              <div class="like">
+
+                                  <form method="post" action="{% url 'like' %}">
+    {% csrf_token %}
+                                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                                      <input type="hidden" name="user_id" value="{{ post.profile }}">
+                                      <button type="submit" class="{% if is_liked %}liked{% else %}not_loved{% endif %}" style="border: none; background-color: transparent;">
+        <img class="{% if is_liked %}liked{% else %}not_loved{% endif %}" src="{% static './images/love.png' %}" alt="Love">
+    </button>
+</form>
+
+
+                              </div>
+                              <div class="chat">
+                                  <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#message_modal">
+                                      <img src="{% static './images/bubble-chat.png' %}">
+                                  </button>
+                              </div>
+                              <div class="send">
+                                  <button type="button" class="btn p-0" data-bs-toggle="modal" data-bs-target="#send_message_modal">
+                                      <img src="{% static './images/send.png' %}">
+                                  </button>
+                              </div>
+                          </div>
+                          <div class="save not_saved">
+                               <form method="post" action="{% url 'saved' %}">
+    {% csrf_token %}
+                                   <input type="hidden" name="post_id" value="{{ post.id }}">
+                                      <input type="hidden" name="user_id" value="{{ post.profile }}">
+
+                                  <button type="submit" style="border: none; background-color: transparent;">
+                                     <img class="not_saved" src="{% static './images/save-instagram.png' %}">
+                                  </button>
+
+                              </form>
+<!--                              <img class="not_saved" src="{% static './images/save-instagram.png' %}">-->
+<!--                       -->
+                          </div>
+                      </div>
+                      <div class="liked">
+                          <a class="bold" href="#">{{ post.likes_count }} likes</a>
+                      </div>
+                      <div class="post_desc">
+                          <p>
+                              <a class="bold" href="#">{{ post.title|slice:":34"  }}</a>
+                            {{ post.title|slice:"34:200"  }} ...
+                          </p>
+                          <p><a class="gray" href="#">View all comments</a></p>
+                          <input type="text" placeholder="Add a comments...">
+                      </div>
+                    </div>
+                      </div>
+                    {% endfor %}
+                                           </div>
+
+
 
                 </div>
-            </div>
             <!--***** posts_container end ****** -->
 
             <!--***** followers_container start ****** -->
             <div class="followers_container">
                 <div>
+
                     <div class="cart">
                         <div>
                             <div class="img">
-                                <img src="{% static './images/profile_img.jpg' %}" alt="">
+                                   {% if user_profile.image %}
+                                <img src="{{ user_profile.image }}" alt="">
+                                {% endif %}
                             </div>
                             <div class="info">
-                                <p class="name">Zineb_essoussi</p>
-                                <p class="second_name">Zim Ess</p>
+                                <p class="name">{{ request.user }}</p>
                             </div>
                         </div>
                         <div class="switch">
                             <a href="#">Switch</a>
                         </div>
                     </div>
+
                     <div class="suggestions">
                         <div class="title">
                             <h4>Suggestions for you</h4>
+                        </div>
+                        {% for data in suggested_profiles %}
+                        <div class="cart">
+                            <div>
+                                <div class="img">
+                                        {% if data.image %}
+                                    <img src="{{ data.image }}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="info">
+                                    <p class="name">{{ data.username }}</p>
+                                    <p class="second_name">{{ data.fullname }}</p>
+                                </div>
+                            </div>
+                            <div class="switch">
+                                <button class="follow_text" href="#">follow</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                         <div class="title">
+                            <h4>Stories</h4>
                             <a class="dark" href="#">See All</a>
                         </div>
+  {% for data in story %}
                         <div class="cart">
                             <div>
                                 <div class="img">
-                                    <img src="{% static './images/profile_img.jpg' %}" alt="">
+
+                                    {% if data.photo %}
+    <img src="{{ data.photo.url }}" alt="">
+{% endif %}
+
                                 </div>
                                 <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
+                                    <p class="name"> {{ data.username }} </p>
+
                                 </div>
-                            </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
                             </div>
                         </div>
-                        <div class="cart">
-                            <div>
-                                <div class="img">
-                                    <img src="{% static './images/profile_img.jpg' %}" alt="">
-                                </div>
-                                <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
-                                </div>
-                            </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
-                            </div>
-                        </div>
-                        <div class="cart">
-                            <div>
-                                <div class="img">
-                                    <img src="{% static './images/profile_img.jpg' %}" alt="">
-                                </div>
-                                <div class="info">
-                                    <p class="name">Zineb_essoussi</p>
-                                    <p class="second_name">Zim Ess</p>
-                                </div>
-                            </div>
-                            <div class="switch">
-                                <button class="follow_text" href="#">follow</button>
-                            </div>
-                        </div>
+                         {% endfor %}
                     </div>
                 </div>
             </div>
@@ -476,24 +441,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <di class="circle">
+                                    <div class="circle">
                                         <span></span>
-                                </div>
-                            </div>
-                            <div class="person">
-                                <div class="d-flex">
-                                    <div class="img">
-                                        <img src="{% static './images/profile_img.jpg' %}" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <div class="person">
-                                            <h4>namePerson</h4>
-                                            <span>zim ess</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="circle">
-                                    <span></span>
                                 </div>
                             </div>
 
@@ -648,3 +597,4 @@
 </body>
 
 </html>
+

@@ -15,6 +15,7 @@ from apps.instagram.views import (
     StoryDestroyAPIView,
     StoryCommentListAPIView,
     UserViewSet,
+    LikeViewSet, SavedViewSet,
 )
 
 router = DefaultRouter()
@@ -35,6 +36,8 @@ urlpatterns = [
         PostCommentListAPIView.as_view(),
         name="post-comments",
     ),
+    path("like/", LikeViewSet.as_view({"get": "list"}), name="like"),
+    path("saved/", SavedViewSet.as_view({"get": "list"}), name="saved"),
     # STORY endpoinsts
     path("story/", StoryListAPIView.as_view(), name="story"),
     path("post/create/", StoryCreateAPIView.as_view(), name="story-create"),
@@ -47,5 +50,3 @@ urlpatterns = [
     ),
     path("", include(router.urls)),
 ]
-
-

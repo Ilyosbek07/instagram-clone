@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from apps.common.models import BaseModel
+from .managers import StoryManager, ProfileManager, PostManager
 
 
 # User Models
@@ -15,14 +16,18 @@ class Gender(models.Model):
 class Profile(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fullname = models.CharField(max_length=222)
-    image = models.ImageField(upload_to="profile/images", null=True, blank=True)
+    image = models.ImageField(
+        upload_to="profile/images",
+        default="profile/images/default_profile_picture.jpeg",
+    )
     bio = models.TextField(null=True, blank=True)
     gender = models.CharField(max_length=15, choices=Gender.GENDER_CHOICES)
     email = models.EmailField(max_length=222)
     is_suggestion = models.BooleanField(default=False)
+    objects = ProfileManager()
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 
 class Follow(models.Model):
@@ -33,13 +38,15 @@ class Follow(models.Model):
         Profile, related_name="follower", on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return self.profile.user.username
 
-# class Highlight(BaseModel):
-#     name = models.CharField(max_length=222)
-#     profile_id = models.ForeignKey(Profile, related_name='post', on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return self.name
+
+class Highlight(BaseModel):
+    name = models.CharField(max_length=222)
+
+    def __str__(self):
+        return self.name
 
 
 class Story(BaseModel):
@@ -48,7 +55,13 @@ class Story(BaseModel):
     )
     video = models.FileField(upload_to="profile/stories", null=True, blank=True)
     image = models.ImageField(upload_to="profile/story/images")
-    # highlight = models.ForeignKey(Highlight, on_delete=models.SET_NULL)
+    highlight = models.ForeignKey(
+        Highlight, on_delete=models.CASCADE, null=True, blank=True
+    )
+    objects = StoryManager()
+
+    def __str__(self):
+        return self.profile_id.user.username
 
 
 # Post Models
@@ -61,13 +74,18 @@ class Video(models.Model):
 
 
 class Post(BaseModel):
-    user = models.ForeignKey(Profile, related_name="post", on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, related_name="post", on_delete=models.CASCADE)
     title = models.CharField(max_length=222)
     images = models.ManyToManyField(Image, blank=True)
     video = models.ManyToManyField(Video, blank=True)
+    objects = PostManager()
 
     def __str__(self):
         return self.title
+
+    @property
+    def like_count(self):
+        return self.likes.count()
 
 
 class Comment(BaseModel):
@@ -83,7 +101,7 @@ class Comment(BaseModel):
 
 
 class Like(models.Model):
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
     user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
 

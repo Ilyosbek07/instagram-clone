@@ -1,5 +1,14 @@
 from django.contrib import admin
-from apps.instagram.models import Post, Profile, Story, Saved, Image, Video, Comment
+from apps.instagram.models import (
+    Post,
+    Profile,
+    Story,
+    Saved,
+    Image,
+    Video,
+    Comment,
+    Follow,
+)
 
 admin.site.register(Post)
 admin.site.register(Story)
@@ -8,3 +17,4 @@ admin.site.register(Profile)
 admin.site.register(Video)
 admin.site.register(Comment)
 admin.site.register(Image)
+admin.site.register(Follow)
